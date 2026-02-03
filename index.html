@@ -31,13 +31,14 @@ body, html {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* PAGE 1 */
 .page1 {
     background: linear-gradient(to bottom, #ff758c, #ff7eb3);
+    overflow: hidden;
 }
 
 .page1 img {
@@ -46,6 +47,7 @@ body, html {
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
     animation: photoPop 1.5s ease;
+    z-index: 2;
 }
 
 @keyframes photoPop {
@@ -64,6 +66,7 @@ body, html {
     font-weight: bold;
     box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
     animation: bounce 2s infinite;
+    z-index: 2;
 }
 
 @keyframes bounce {
@@ -71,45 +74,18 @@ body, html {
     50% { transform: translateY(-10px); }
 }
 
-/* INTRO PAGE */
-.pageIntro {
-    background: linear-gradient(to bottom, #ffd1dc, #ff9a9e);
-    text-align: center;
+/* HEART ANIMATION FOR PAGE 1 */
+.heart {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
 }
 
-.intro-title {
-    font-size: 40px;
-    color: darkred;
-    margin-bottom: 20px;
-    animation: zoom 1.2s ease;
-}
-
-@keyframes zoom {
-    from { transform: scale(0); }
-    to { transform: scale(1); }
-}
-
-.intro-text {
-    font-size: 22px;
-    color: #7a003c;
-    margin-bottom: 30px;
-}
-
-.start-quiz {
-    padding: 15px 30px;
-    font-size: 22px;
-    border-radius: 30px;
-    border: none;
-    background: hotpink;
-    color: white;
-    cursor: pointer;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
 }
 
 /* CARD STYLE */
@@ -124,67 +100,46 @@ body, html {
     border: 5px solid pink;
 }
 
-/* QUIZ PAGE */
+/* PAGE 2 */
 .page2 {
-    background: linear-gradient(to top, #ffe6f0, #ffc0cb);
+    background-color: #ffe6f0;
 }
 
-.question {
-    font-size: 26px;
-    color: darkred;
-}
-
-.options button {
-    display: block;
-    margin: 10px auto;
-    padding: 12px 25px;
-    font-size: 20px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    background-color: pink;
-    color: white;
-}
-
-.options button:hover {
-    transform: scale(1.1);
-    background-color: hotpink;
-}
-
-.message {
-    font-size: 22px;
-    margin-top: 10px;
-}
-
-/* SHAKE ANIMATION */
-.shake {
-    animation: shake 0.4s;
-}
-
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    50% { transform: translateX(10px); }
-    75% { transform: translateX(-10px); }
-    100% { transform: translateX(0); }
-}
-
-/* FINAL PAGE */
+/* PAGE 3 */
 .page3 {
     background: linear-gradient(to bottom, #ffb6c1, #ff69b4);
+    overflow: hidden;
 }
 
-/* KISS ANIMATION */
-.emoji {
+/* KISS ANIMATION FOR PAGE 3 */
+.kiss {
     position: absolute;
     font-size: 28px;
-    animation: floatUp 3s linear;
+    animation: floatKiss 5s linear infinite;
 }
 
-@keyframes floatUp {
+@keyframes floatKiss {
     0% { transform: translateY(100vh); opacity: 0; }
     50% { opacity: 1; }
     100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+.options button {
+    padding: 12px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #ff4d6d;
+    color: white;
+}
+
+.special-message {
+    font-size: 22px;
+    color: darkred;
+    margin-top: 20px;
+    line-height: 1.6;
 }
 </style>
 </head>
@@ -197,60 +152,57 @@ body, html {
     <div class="center-button" id="startBtn">Love is in the Air ❤️</div>
 </div>
 
-<!-- INTRO PAGE -->
-<div class="page pageIntro" id="pageIntro">
-    <div class="intro-title">💌 Pyaar Ki Pariksha 💌</div>
-
-    <div class="intro-text">
-        Aaj hoga asli test! 😄<br>
-        Dekhte hain tumhe hamari love story kitni yaad hai 💕
-    </div>
-
-    <button class="start-quiz" id="startQuiz">
-        Start the Test 💘
-    </button>
-</div>
-
-<!-- QUIZ PAGE -->
+<!-- PAGE 2 -->
 <div class="page page2" id="page2">
-    <div class="card" id="quizCard">
+    <div class="card">
         <div class="question" id="questionText"></div>
         <div class="options" id="optionsContainer"></div>
-        <div class="message" id="message"></div>
+        <div id="message"></div>
     </div>
 </div>
 
-<!-- FINAL PAGE -->
+<!-- PAGE 3 -->
 <div class="page page3" id="page3">
     <div class="card">
-        <div class="question">Will you be my Valentine, Mote? 💘</div>
+        <div class="question">Will you be my Valentine, Vansh? 💘</div>
 
         <div class="options">
             <button onclick="checkValentine('yes')">Yes ❤️</button>
             <button id="noBtn">No 😢</button>
         </div>
 
-        <div class="message" id="finalMessage"></div>
+        <div class="special-message" id="specialMessage"></div>
     </div>
 </div>
 
 <script>
-// NAVIGATION
+
+// PAGE NAVIGATION
 const page1 = document.getElementById('page1');
-const pageIntro = document.getElementById('pageIntro');
 const page2 = document.getElementById('page2');
 const page3 = document.getElementById('page3');
 
 document.getElementById('startBtn').onclick = () => {
     page1.classList.remove('active');
-    pageIntro.classList.add('active');
-};
-
-document.getElementById('startQuiz').onclick = () => {
-    pageIntro.classList.remove('active');
     page2.classList.add('active');
     showQuestion(0);
 };
+
+// HEART ANIMATION FOR FIRST PAGE
+function createHeartsPage1() {
+    const emojis = ['💖','❤️','💕','💗','💓'];
+
+    for(let i=0;i<20;i++){
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        heart.style.left = Math.random()*100 + 'vw';
+        heart.style.animationDuration = (4 + Math.random()*4) + 's';
+        page1.appendChild(heart);
+    }
+}
+
+createHeartsPage1();
 
 // QUIZ QUESTIONS
 const questions = [
@@ -263,7 +215,7 @@ const questions = [
 let currentQuestion = 0;
 
 function showQuestion(index) {
-    message.textContent = "";
+    document.getElementById("message").textContent = "";
     questionText.textContent = questions[index].text;
     optionsContainer.innerHTML = "";
 
@@ -275,14 +227,13 @@ function showQuestion(index) {
     });
 }
 
-// CHECK ANSWER WITH MESSAGE + ANIMATION
 function checkAnswer(selected) {
+    const msg = document.getElementById("message");
+
     if (selected === questions[currentQuestion].answer) {
 
-        message.style.color = "green";
-        message.textContent = "Correct answer Mote! 😘💖";
-
-        createKisses();
+        msg.style.color = "green";
+        msg.textContent = "Correct answer Mote! 😘";
 
         setTimeout(() => {
             currentQuestion++;
@@ -292,48 +243,48 @@ function checkAnswer(selected) {
             } else {
                 page2.classList.remove('active');
                 page3.classList.add('active');
+                startKissesPage3();
             }
-        }, 1500);
+        }, 1200);
 
     } else {
-        message.style.color = "red";
-        message.textContent = "Wrong answer, try again Mote 😜";
-
-        quizCard.classList.add("shake");
-
-        setTimeout(() => {
-            quizCard.classList.remove("shake");
-        }, 500);
+        msg.style.color = "red";
+        msg.textContent = "Wrong answer, try again Mote 😜";
     }
 }
 
-// KISS EFFECT
-function createKisses() {
-    for(let i=0; i<15; i++) {
+// KISS ANIMATION FOR PAGE 3
+function startKissesPage3() {
+    for(let i=0;i<25;i++){
         const kiss = document.createElement('div');
-        kiss.classList.add('emoji');
+        kiss.classList.add('kiss');
         kiss.textContent = "💋";
-        kiss.style.left = Math.random() * 100 + "vw";
-        document.body.appendChild(kiss);
-
-        setTimeout(() => kiss.remove(), 3000);
+        kiss.style.left = Math.random()*100 + 'vw';
+        kiss.style.animationDuration = (3 + Math.random()*3) + 's';
+        page3.appendChild(kiss);
     }
 }
 
-// FINAL PAGE
+// FINAL VALENTINE MESSAGE
 function checkValentine(ans) {
-    if (ans === 'yes') {
-        finalMessage.innerHTML = "Yay! Best Valentine Ever 💖";
-        createKisses();
+    const msg = document.getElementById("specialMessage");
+
+    if(ans === 'yes') {
+        msg.innerHTML = `
+        Thank you for being my sunshine 🌞<br>
+        I love you Motee 💖<br>
+        Lots of love and kisses on the way 💋
+        `;
     }
 }
 
-// FUNNY NO BUTTON
+// FUNNY NO BUTTON MOVEMENT
 noBtn.onmouseover = () => {
     noBtn.style.position = "absolute";
     noBtn.style.left = Math.random()*80 + "%";
     noBtn.style.top = Math.random()*80 + "%";
 };
+
 </script>
 
 </body>
