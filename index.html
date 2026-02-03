@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Valentine Surprise</title>
+
+<style>
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+/* GENERAL PAGE STYLE */
+.page {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    padding: 20px;
+}
+
+.active {
+    display: flex;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* PAGE 1 */
+.page1 {
+    background: linear-gradient(to bottom, #ff758c, #ff7eb3);
+}
+
+.page1 img {
+    max-width: 80%;
+    max-height: 70%;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    animation: photoPop 1.5s ease;
+}
+
+@keyframes photoPop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.center-button {
+    margin-top: 25px;
+    background-color: white;
+    padding: 15px 25px;
+    border-radius: 50px;
+    font-size: 22px;
+    color: #ff4d6d;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* INTRO PAGE */
+.pageIntro {
+    background: linear-gradient(to bottom, #ffd1dc, #ff9a9e);
+    text-align: center;
+}
+
+.intro-title {
+    font-size: 40px;
+    color: darkred;
+    margin-bottom: 20px;
+    animation: zoom 1.2s ease;
+}
+
+@keyframes zoom {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+.intro-text {
+    font-size: 22px;
+    color: #7a003c;
+    margin-bottom: 30px;
+}
+
+.start-quiz {
+    padding: 15px 30px;
+    font-size: 22px;
+    border-radius: 30px;
+    border: none;
+    background: hotpink;
+    color: white;
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* CARD STYLE */
+.card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+    border: 5px solid pink;
+}
+
+/* QUIZ PAGE */
+.page2 {
+    background: linear-gradient(to top, #ffe6f0, #ffc0cb);
+}
+
+.question {
+    font-size: 26px;
+    color: darkred;
+}
+
+.options button {
+    display: block;
+    margin: 10px auto;
+    padding: 12px 25px;
+    font-size: 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    background-color: pink;
+    color: white;
+}
+
+.options button:hover {
+    transform: scale(1.1);
+    background-color: hotpink;
+}
+
+.message {
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+/* SHAKE ANIMATION */
+.shake {
+    animation: shake 0.4s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+
+/* FINAL PAGE */
+.page3 {
+    background: linear-gradient(to bottom, #ffb6c1, #ff69b4);
+}
+
+/* KISS ANIMATION */
+.emoji {
+    position: absolute;
+    font-size: 28px;
+    animation: floatUp 3s linear;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="page page1 active" id="page1">
+    <img src="us.jpg" alt="Us Together">
+    <div class="center-button" id="startBtn">Love is in the Air ❤️</div>
+</div>
+
+<!-- INTRO PAGE -->
+<div class="page pageIntro" id="pageIntro">
+    <div class="intro-title">💌 Pyaar Ki Pariksha 💌</div>
+
+    <div class="intro-text">
+        Aaj hoga asli test! 😄<br>
+        Dekhte hain tumhe hamari love story kitni yaad hai 💕
+    </div>
+
+    <button class="start-quiz" id="startQuiz">
+        Start the Test 💘
+    </button>
+</div>
+
+<!-- QUIZ PAGE -->
+<div class="page page2" id="page2">
+    <div class="card" id="quizCard">
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsContainer"></div>
+        <div class="message" id="message"></div>
+    </div>
+</div>
+
+<!-- FINAL PAGE -->
+<div class="page page3" id="page3">
+    <div class="card">
+        <div class="question">Will you be my Valentine, Mote? 💘</div>
+
+        <div class="options">
+            <button onclick="checkValentine('yes')">Yes ❤️</button>
+            <button id="noBtn">No 😢</button>
+        </div>
+
+        <div class="message" id="finalMessage"></div>
+    </div>
+</div>
+
+<script>
+// NAVIGATION
+const page1 = document.getElementById('page1');
+const pageIntro = document.getElementById('pageIntro');
+const page2 = document.getElementById('page2');
+const page3 = document.getElementById('page3');
+
+document.getElementById('startBtn').onclick = () => {
+    page1.classList.remove('active');
+    pageIntro.classList.add('active');
+};
+
+document.getElementById('startQuiz').onclick = () => {
+    pageIntro.classList.remove('active');
+    page2.classList.add('active');
+    showQuestion(0);
+};
+
+// QUIZ QUESTIONS
+const questions = [
+    { text: "When did we kiss for the first time?", options: ["25 December", "26 December", "27 December"], answer: "26 December" },
+    { text: "When did you say I love you to me?", options: ["1 January", "2 January", "3 January"], answer: "2 January" },
+    { text: "Whom do you love the most?", options: ["PUBG", "Me"], answer: "Me" },
+    { text: "Who is the smartest person in our relationship?", options: ["Vansh", "Harshita"], answer: "Harshita" }
+];
+
+let currentQuestion = 0;
+
+function showQuestion(index) {
+    message.textContent = "";
+    questionText.textContent = questions[index].text;
+    optionsContainer.innerHTML = "";
+
+    questions[index].options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(option);
+        optionsContainer.appendChild(btn);
+    });
+}
+
+// CHECK ANSWER WITH MESSAGE + ANIMATION
+function checkAnswer(selected) {
+    if (selected === questions[currentQuestion].answer) {
+
+        message.style.color = "green";
+        message.textContent = "Correct answer Mote! 😘💖";
+
+        createKisses();
+
+        setTimeout(() => {
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                showQuestion(currentQuestion);
+            } else {
+                page2.classList.remove('active');
+                page3.classList.add('active');
+            }
+        }, 1500);
+
+    } else {
+        message.style.color = "red";
+        message.textContent = "Wrong answer, try again Mote 😜";
+
+        quizCard.classList.add("shake");
+
+        setTimeout(() => {
+            quizCard.classList.remove("shake");
+        }, 500);
+    }
+}
+
+// KISS EFFECT
+function createKisses() {
+    for(let i=0; i<15; i++) {
+        const kiss = document.createElement('div');
+        kiss.classList.add('emoji');
+        kiss.textContent = "💋";
+        kiss.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(kiss);
+
+        setTimeout(() => kiss.remove(), 3000);
+    }
+}
+
+// FINAL PAGE
+function checkValentine(ans) {
+    if (ans === 'yes') {
+        finalMessage.innerHTML = "Yay! Best Valentine Ever 💖";
+        createKisses();
+    }
+}
+
+// FUNNY NO BUTTON
+noBtn.onmouseover = () => {
+    noBtn.style.position = "absolute";
+    noBtn.style.left = Math.random()*80 + "%";
+    noBtn.style.top = Math.random()*80 + "%";
+};
+</script>
+
+</body>
+</html>
